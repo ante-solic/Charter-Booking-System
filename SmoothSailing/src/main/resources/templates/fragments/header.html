@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <title>Register page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        body{
+            min-height: 100vh;
+            position: relative;
+        }
+        footer{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+        .dropdown-item:hover {
+             background-color: #555 !important;
+        }
+    </style>
+</head>
+<body>
+<div th:fragment="header">
+    <nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Smooth Sailing</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse">
+                <ul th:if="${authorize == 'company'}" class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/boat/register">Add Boat</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/company/boat-list?page=0">Boat List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/company/reservations">Reservations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/company/profile">Company Page</a>
+                    </li>
+                </ul>
+                <ul th:if="${authorize == 'admin'}" class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/company/list?page=0">Company List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/list?page=0">User List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/boat/list?page=0">Boat List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/reservations/list?page=0">Reservation List</a>
+                    </li>
+                </ul>
+                <ul th:if="${authorize == 'user' || authorize == 'logout'}" class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/reservation">Make Reservation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/reservations">Reservations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/profile">Profile Page</a>
+                    </li>
+                </ul>
+                <span th:if="${authorize == 'logout'}" class="navbar-text"><a class="nav-link" href="/user/login">Login</a></span>
+                <span th:if="${authorize == 'company'}" class="navbar-text"><a class="nav-link" href="/company/logout">Logout</a></span>
+                <span th:if="${authorize == 'user' || authorize == 'admin'}" class="navbar-text"><a class="nav-link" href="/user/logout">Logout</a></span>
+            </div>
+        </div>
+    </nav>
+</div>
+</body>
+</html>

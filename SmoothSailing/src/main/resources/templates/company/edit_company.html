@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="~{fragments/header :: head}">
+    <meta charset="UTF-8">
+    <title>Reservation page</title>
+</head>
+<body style="background:#e9e9e9;">
+    <div th:replace="~{fragments/header :: header}"></div>
+    <div class="container w-25 mt-4">
+        <form method="post" th:action="@{'/company/edit/' + ${editCompanyRequest.id}}" th:object="${editCompanyRequest}" class="needs-validation">
+            <h2 class="mb-3">Edit Company</h2>
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input th:value="${editCompanyRequest.name}" type="text" name="name" class="form-control" placeholder="Name" required>
+                <div class="invalid-feedback">
+                    Please provide a valid name.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Location</label>
+                <input th:value="${editCompanyRequest.location}" type="text" name="location" class="form-control" placeholder="Location" required>
+                <div class="invalid-feedback">
+                    Please provide a valid location.
+                </div>
+            </div>
+            <div class="mb-3">
+                <button type="submit" name="edit" class="btn btn-primary">Edit</button>
+                <a href="/" class="btn btn-secondary">Navigate to Main</a>
+            </div>
+        </form>
+    </div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="~{fragments/header :: head}">
+    <meta charset="UTF-8">
+    <title>Reservation page</title>
+</head>
+<body style="background:#e9e9e9;">
+    <div th:replace="~{fragments/header :: header}"></div>
+    <div class="container mt-5">
+        <h2>Choose boat:</h2>
+
+        <form th:action="@{/user/available_boats}" method="get" class="mb-4 w-25">
+            <input type="hidden" name="size" th:value="${boatPage.size}" />
+            <input type="hidden" name="page" th:value="${pageNumber}" />
+            <input type="hidden" name="startDate" th:value="${#dates.format(startDate, 'yyyy-MM-dd''T''HH:mm')}" />
+            <input type="hidden" name="endDate" th:value="${#dates.format(endDate, 'yyyy-MM-dd''T''HH:mm')}" />
+            <input type="hidden" name="passengerCapacity" th:value="${passengerCapacity}" />
+            <input type="hidden" name="crew_choice" th:value="${crewChoice}" />
+            <input type="hidden" name="sort" th:value="${sortField != null ? sortField + ',' + sortDirection : null}" />
+
+            <div class="input-group">
+                <input type="text" name="search" id="search" class="form-control" placeholder="Search...">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary mx-4">Search</button>
+                </div>
+            </div>
+        </form>
+
+        <table class="table table-dark">
+            <thead>
+                <tr>
+                    <th>
+                        <a class="text-white text-white text-decoration-none" th:href="@{/user/available_boats(size=${boatPage.size}, page=${pageNumber}, startDate=${#dates.format(startDate, 'yyyy-MM-dd''T''HH:mm')}, endDate=${#dates.format(endDate, 'yyyy-MM-dd''T''HH:mm')}, passengerCapacity=${passengerCapacity}, crew_choice=${crewChoice}, sort=${sortField == 'img' && sortDirection == 'asc' ? 'name,desc' : 'name,asc'}, search=${search} )}">
+                            Boat image
+                        </a>
+                    </th>
+                    <th>
+                        <a class="text-white text-white text-decoration-none" th:href="@{/user/available_boats(size=${boatPage.size}, page=${pageNumber}, startDate=${#dates.format(startDate, 'yyyy-MM-dd''T''HH:mm')}, endDate=${#dates.format(endDate, 'yyyy-MM-dd''T''HH:mm')}, passengerCapacity=${passengerCapacity}, crew_choice=${crewChoice}, sort=${sortField == 'name' && sortDirection == 'asc' ? 'name,desc' : 'name,asc'}, search=${search} )}">
+                            Boat name
+                        </a>
+                    </th>
+                    <th>
+                        <a class="text-white text-white text-decoration-none" th:href="@{/user/available_boats(size=${boatPage.size}, page=${pageNumber}, startDate=${#dates.format(startDate, 'yyyy-MM-dd''T''HH:mm')}, endDate=${#dates.format(endDate, 'yyyy-MM-dd''T''HH:mm')}, passengerCapacity=${passengerCapacity}, crew_choice=${crewChoice}, sort=${sortField == 'price' && sortDirection == 'asc' ? 'price,desc' : 'price,asc'}, search=${search} )}">
+                            Price
+                        </a>
+                    </th>
+                    <th>
+                        <a class="text-white text-white text-decoration-none" th:href="@{/user/available_boats(size=${boatPage.size}, page=${pageNumber}, startDate=${#dates.format(startDate, 'yyyy-MM-dd''T''HH:mm')}, endDate=${#dates.format(endDate, 'yyyy-MM-dd''T''HH:mm')}, passengerCapacity=${passengerCapacity}, crew_choice=${crewChoice}, sort=${sortField == 'review' && sortDirection == 'asc' ? 'review,desc' : 'review,asc'}, search=${search} )}">
+                            Reviews
+                        </a>
+                    </th>
+                    <th>
+                        <a class="text-white text-white text-decoration-none"    th:href="@{/user/available_boats(size=${boatPage.size}, page=${pageNumber}, startDate=${#dates.format(startDate, 'yyyy-MM-dd''T''HH:mm')}, endDate=${#dates.format(endDate, 'yyyy-MM-dd''T''HH:mm')}, passengerCapacity=${passengerCapacity}, crew_choice=${crewChoice}, sort=${sortField == 'type' && sortDirection == 'asc' ? 'name,desc' : 'name,asc'}, search=${search} )}">
+                            Boat type
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="boat : ${boatPage}">
+                    <form method="post" action="/user/make_reservation" th:object="${reservationRequest}">
+                        <input type="hidden" th:field="*{startDate}" th:value="${reservationRequest.startDate}" />
+                        <input type="hidden" th:field="*{endDate}" th:value="${reservationRequest.endDate}" />
+                        <input type="hidden" name="boat_id" th:value="${boat.id}" />
+
+                        <td>
+                            <img th:src="@{'/images/' + ${boat.img}}" style="height:125px;width:200px;"/>
+                        </td>
+                        <td th:text="${boat.name}" />
+                        <td>
+                            <label th:text="${duration * boat.price}"></label>
+                            <input type="hidden" name="downPayment" th:value="${duration * boat.price}" />
+                        </td>
+                        <td th:text="${boat.review}" />
+                        <td th:text="${boat.type}" />
+                        <td>
+                            <button type="submit" name="sign-in" class="btn btn-success">Reserve</button>
+                        </td>
+                    </form>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="/" class="btn btn-link">Navigate to main</a>
+    </div>
+
+    <div th:if="${boatPage.totalPages > 0}" class="pagination justify-content-center" th:each="pageNumber : ${pageNumbers}">
+        <a th:href="@{/user/available_boats(size=${boatPage.size}, page=${pageNumber}, startDate=${#dates.format(startDate, 'yyyy-MM-dd''T''HH:mm')}, endDate=${#dates.format(endDate, 'yyyy-MM-dd''T''HH:mm')}, passengerCapacity=${passengerCapacity}, crew_choice=${crewChoice}, sort=${sortField + ',' + sortDirection}, search=${search} )}"
+           th:text="${pageNumber}"
+           th:class="${pageNumber == boatPage.number + 1} ? 'page-item active' : 'page-item'">
+            <span class="page-link"></span>
+        </a>
+    </div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

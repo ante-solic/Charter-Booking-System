@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="~{fragments/header :: head}">
+    <meta charset="UTF-8">
+    <title>Reservation page</title>
+</head>
+<body style="background:#e9e9e9;">
+    <div th:replace="~{fragments/header :: header}"></div>
+    <div class="container w-25 mt-4">
+        <form method="post" action="/company/register" th:object="${registerCompanyRequest}" class="needs-validation">
+            <h2 class="mb-3">Register Company</h2>
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" name="name" class="form-control" placeholder="Name" required>
+                <div class="invalid-feedback">
+                    Please provide a valid name.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
+                <div class="invalid-feedback">
+                    Please provide a valid email.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="confirmEmail" class="form-label">Confirm Email</label>
+                <input type="email" name="confirmEmail" id="confirmEmail" class="form-control" placeholder="Confirm Email" required>
+                <div class="invalid-feedback">
+                    Email addresses must match.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+                <div class="invalid-feedback">
+                    Password must meet the specified criteria.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Confirm Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required>
+                <div class="invalid-feedback">
+                    Passwords must match and meet the specified criteria.
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Location</label>
+                <input type="text" name="location" class="form-control" placeholder="Location" required>
+                <div class="invalid-feedback">
+                    Please provide a valid location.
+                </div>
+            </div>
+            <div class="mb-3">
+                <button type="submit" name="sign-in" class="btn btn-primary">Register</button>
+                <a href="/" class="btn btn-secondary">Navigate to Main</a>
+            </div>
+        </form>
+    </div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <script>
+        var password = document.getElementById("password")
+        var confirm_password = document.getElementById("confirmPassword");
+
+    function validatePassword(){
+      if(password.value != confirm_password.value) {
+        confirm_password.setCustomValidity("Passwords Don't Match");
+      } else {
+        confirm_password.setCustomValidity('');
+      }
+    }
+
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+
+
+
+        var email = document.getElementById("email")
+        var confirm_email = document.getElementById("confirmEmail");
+
+    function validateEmail(){
+      if(email.value != confirm_email.value) {
+        confirm_email.setCustomValidity("Emails Don't Match");
+      } else {
+        confirm_email.setCustomValidity('');
+      }
+    }
+
+    email.onchange = validateEmail;
+    confirm_email.onkeyup = validateEmail;
+    </script>
+</body>
+</html>

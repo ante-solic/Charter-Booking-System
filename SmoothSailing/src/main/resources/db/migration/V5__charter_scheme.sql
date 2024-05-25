@@ -1,0 +1,8 @@
+ALTER TABLE Boats
+ADD COLUMN crew_capacity INT,
+ADD COLUMN name VARCHAR(20) NOT NULL,
+ADD COLUMN type VARCHAR(20) NOT NULL,
+ADD COLUMN passenger_capacity INT;
+
+DROP TABLE BoatType;
+

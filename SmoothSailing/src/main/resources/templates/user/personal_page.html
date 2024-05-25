@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="~{fragments/header :: head}">
+    <meta charset="UTF-8">
+    <title>Reservation page</title>
+</head>
+<body style="background:#e9e9e9;">
+    <div th:replace="~{fragments/header :: header}"></div>
+    <div class="container d-flex justify-content-center text-center mt-4">
+        <div>
+            <h1 th:text="@{'Hello there ' + ${profile.name} + ' ' + ${profile.surname}}"></h1>
+            <p th:text="@{'Birthday: ' + ${profile.birthday}}"></p>
+            <p th:text="@{'Email: ' + ${profile.email}}"></p>
+            <p th:text="@{'Have active license: ' + ${profile.license}}"></p>
+
+            <a th:href="@{'/user/edit/' + ${profile.id}}" class="btn btn-primary">Edit Profile</a>
+            <a th:href="@{'/user/change-password/' + ${profile.id}}" class="btn btn-secondary">Change Password</a>
+        </div>
+    </div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

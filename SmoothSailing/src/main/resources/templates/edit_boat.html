@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="~{fragments/header :: head}">
+    <meta charset="UTF-8">
+    <title>Reservation page</title>
+</head>
+<body style="background:#e9e9e9;">
+<div th:replace="~{fragments/header :: header}"></div>
+<div class="container w-25">
+    <form method="post" th:action="@{'/boat/edit/' + ${editBoat.id}}" th:object="${editBoat}" enctype="multipart/form-data" class="needs-validation">
+        <h2 class="mb-3">Edit Boat</h2>
+        <div class="mb-3">
+            <input type="text" name="price" class="form-control" placeholder="Price" th:value="${editBoat.price}" required>
+            <div class="invalid-feedback">
+                Please provide a valid price.
+            </div>
+        </div>
+        <div class="mb-3">
+            <input type="text" name="availability" class="form-control" placeholder="Availability" th:value="${editBoat.availability}" required>
+            <div class="invalid-feedback">
+                Please provide valid availability information.
+            </div>
+        </div>
+        <div class="mb-3">
+            <input type="text" name="review" class="form-control" placeholder="Review" th:value="${editBoat.review}" required>
+            <div class="invalid-feedback">
+                Please provide a valid review.
+            </div>
+        </div>
+        <div class="mb-3">
+            <input type="text" name="name" class="form-control" placeholder="Name" th:value="${editBoat.name}" required>
+            <div class="invalid-feedback">
+                Please provide a valid name.
+            </div>
+        </div>
+        <div class="mb-3">
+            <input type="text" name="type" class="form-control" placeholder="Type" th:value="${editBoat.type}" required>
+            <div class="invalid-feedback">
+                Please provide a valid type.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="crewCapacity" class="form-label">Crew Capacity (between 1 and 5)</label>
+            <input type="number" id="crewCapacity" name="crewCapacity" class="form-control" min="1" max="5" th:value="${editBoat.crewCapacity}">
+            <div class="invalid-feedback">
+                Please enter a valid number between 1 and 5.
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="passengerCapacity" class="form-label">Passenger Capacity (between 1 and 10)</label>
+            <input type="number" id="passengerCapacity" name="passengerCapacity" class="form-control" min="1" max="10" th:value="${editBoat.passengerCapacity}">
+            <div class="invalid-feedback">
+                Please enter a valid number between 1 and 10.
+            </div>
+        </div>
+        <div class="mb-3">
+            <button type="submit" name="sign-in" class="btn btn-primary">Edit</button>
+            <a href="/" class="btn btn-secondary">Navigate to Main</a>
+        </div>
+    </form>
+</div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

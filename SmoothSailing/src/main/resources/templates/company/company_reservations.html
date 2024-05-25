@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="~{fragments/header :: head}">
+    <meta charset="UTF-8">
+    <title>Reservations</title>
+</head>
+<body  style="background:#e9e9e9;">
+    <div th:replace="~{fragments/header :: header}"></div>
+    <div class="container justify-content-center mt-4">
+        <table class="table table-dark">
+            <thead>
+            <tr>
+                <th scope="col">Boat</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+                <th scope="col">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="reservation : ${reservations}">
+                <td class="align-middle" th:text="${reservation.boat_id.name}"></td>
+                <td class="align-middle" th:text="${reservation.startDate}"></td>
+                <td class="align-middle" th:text="${reservation.endDate}"></td>
+                <td class="align-middle" th:text="${reservation.status}"></td>
+                <td class="align-middle">
+                    <span th:if="${reservation.status == 'Pending'}">
+                        <div class="btn-group" role="group">
+                            <form method="post" action="/company/reservation/confirmed" class="mr-2">
+                                <input type="hidden" name="id" th:value="${reservation.id}" />
+                                <button type="submit" name="confirm" class="btn btn-success">Confirm</button>
+                            </form>
+                            <form method="post" action="/company/reservation/denied" style="margin-left:16px;">
+                                <input type="hidden" name="id" th:value="${reservation.id}" />
+                                <button type="submit" name="deny" class="btn btn-danger">Deny</button>
+                            </form>
+                        </div>
+                    </span>
+                </td>
+            </tr>
+            <tr th:if="${reservations.isEmpty()}">
+                <td class="text-center" colspan="3">No Records found.</td></a>
+            </tr>
+            </tbody>
+        </table>
+        <a href="/" class="btn btn-secondary">Navigate to Main</a>
+    </div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

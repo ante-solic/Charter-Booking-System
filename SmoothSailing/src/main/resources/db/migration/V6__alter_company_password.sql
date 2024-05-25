@@ -1,0 +1,2 @@
+ALTER TABLE company
+ALTER COLUMN password TYPE VARCHAR(100);

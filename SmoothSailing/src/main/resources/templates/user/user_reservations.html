@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="~{fragments/header :: head}">
+    <meta charset="UTF-8">
+    <title>Reservations page</title>
+</head>
+<body style="background:#e9e9e9;">
+    <div th:replace="~{fragments/header :: header}"></div>
+    <div class="container justify-content-center mt-4">
+        <form th:action="@{/user/reservations}" method="get" class="mb-4 w-25">
+            <input type="hidden" name="sort" th:value="${sortField != null ? sortField + ',' + sortDirection : null}" />
+
+            <div class="input-group">
+                <input type="text" name="search" id="search" class="form-control" placeholder="Search...">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary mx-4">Search</button>
+                </div>
+            </div>
+        </form>
+        <table class="table table-dark">
+            <thead>
+                <tr>
+                    <th scope="col"><a th:href="@{/user/reservations( sort=${sortField == 'startDate' && sortDirection == 'asc' ? 'startDate,desc' : 'startDate,asc'}, search=${search} )}">Start date</a></th>
+                    <th scope="col"><a th:href="@{/user/reservations( sort=${sortField == 'endDate' && sortDirection == 'asc' ? 'endDate,desc' : 'endDate,asc'}, search=${search} )}">End date</a></th>
+                    <th scope="col"><a th:href="@{/user/reservations( sort=${sortField == 'status' && sortDirection == 'asc' ? 'status,desc' : 'status,asc'}, search=${search} )}">Status</a></th>
+                    <th scope="col">Boat</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="reservation : ${reservations}">
+                    <td class="align-middle" th:text="${reservation.startDate}"></td>
+                    <td class="align-middle" th:text="${reservation.endDate}"></td>
+                    <td class="align-middle" th:text="${reservation.status}"></td>
+                    <td class="align-middle" th:text="${reservation.boat_id.name}"></td>
+                    <td><a th:href="@{'/reservation/delete/' + ${reservation.id}}" class="btn btn-danger">Delete</a></td>
+
+                    <td th:if="${reservation.status eq 'Concluded' && reservation.reviewed eq 'No'} ">
+                        <form th:action="@{/user/make_review}" method="post">
+                            <input type="hidden" name="reservationID" th:value="${reservation.id}"/>
+
+                            <label for="review_score"> Choose a rating: </label>
+
+                            <select name="review_score" id="review_score">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+
+                            <button type="submit" class="btn btn-primary mx-4">Post review</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${reservations != null and reservations.isEmpty()}">
+                    <td class="text-center" colspan="3">No Records found. Add some...!</td><a href="/user/reservation"></a>
+                </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-primary text-white"><a href="/" class="btn btn-primary">Home</a></button>
+    </div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

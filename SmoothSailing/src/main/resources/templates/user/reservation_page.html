@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="~{fragments/header :: head}">
+    <meta charset="UTF-8">
+    <title>Reservation page</title>
+</head>
+<body style="background:#e9e9e9;">
+    <div th:replace="~{fragments/header :: header}"></div>
+    <div class="container mt-5 w-25">
+        <form method="post" action="/user/available_boats" class="needs-validation">
+            <h2>Choose dates:</h2>
+
+            <div class="form-group">
+                <label for="startDate">Start date (date and time):</label>
+                <input type="datetime-local" id="startDate" name="startDate" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="endDate">End date (date and time):</label>
+                <input type="datetime-local" id="endDate" name="endDate" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="passengerCapacity">Passenger capacity (between 1 and 10):</label>
+                <input type="number" id="passengerCapacity" name="passengerCapacity" class="form-control" min="1" max="10" required>
+            </div>
+
+            <div class="form-group d-flex" th:if="${licence == 'Yes'}">
+                <p>Do you want crew members?</p>
+                <div class="form-check mx-2">
+                    <input type="radio" id="yes" name="crew_choice" value="Yes" class="form-check-input" required>
+                    <label for="yes" class="form-check-label">Yes</label>
+                </div>
+                <div class="form-check mx-2">
+                    <input type="radio" id="no" name="crew_choice" value="No" class="form-check-input" required>
+                    <label for="no" class="form-check-label">No</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" name="sign-in" class="btn btn-primary">Search</button>
+                <a href="/" class="btn btn-secondary">Navigate to main</a>
+            </div>
+        </form>
+    </div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get references to the input elements
+            var startDateInput = document.getElementById('startDate');
+            var endDateInput = document.getElementById('endDate');
+
+            // Attach an event listener to the input elements
+            startDateInput.addEventListener('change', function () {
+                validateDates();
+            });
+
+            endDateInput.addEventListener('change', function () {
+                validateDates();
+            });
+
+            // Function to validate dates
+            function validateDates() {
+                var startDate = new Date(startDateInput.value);
+                var endDate = new Date(endDateInput.value);
+
+                // Check if start date is after end date
+                if (startDate > endDate) {
+                    startDateInput.classList.add('is-invalid');
+                    endDateInput.classList.add('is-invalid');
+                    endDateInput.setCustomValidity("End Date have to be after Start Date!");
+                } else {
+                    // Clear any previous validation styles
+                    startDateInput.classList.remove('is-invalid');
+                    endDateInput.classList.remove('is-invalid');
+                    endDateInput.setCustomValidity('');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
